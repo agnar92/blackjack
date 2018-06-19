@@ -10,15 +10,15 @@ def start():
 
     # give card for player and dealer
     player_1 = Player(d)
-    dealer = Dealer(d)
+    dd = Dealer(d)
 
     player_1.begin()
-    dealer.begin()
+    dd.begin()
 
     print(player_1)
-    print(dealer)
+    print(dd)
 
-    return d, player_1, dealer
+    return d, player_1, dd
 
 
 def main():
@@ -26,23 +26,42 @@ def main():
     print("Bet: {1} and {0}".format(player.my_chips, player.my_chips.bet))
     while player.my_chips.total is not 0:
         dealer.take_bet(player=player, bet=int(input('How much you will bet? \n')))
-        while player.my_hand.values < 20 or dealer.my_hand.values < 17:
+        while True:
             out = input("Hit or Stand \n").lower()
             if out == "hit":
                 player.hit()
+                if player.my_hand.values > 21:
+                    print("Player lose!")
+                    player.my_chips.lose_bet()
+                    break
+                elif player.my_hand.values == 21:
+                    print("Player Win!")
+                    player.my_chips.win_bet()
+                    break
+
             else:
-                dealer.hit()
+                dealer.show_2nd_card()
+                print(player)
+                print(dealer)
+                while dealer.my_hand.values < 17:
+                    dealer.hit()
+                    print("Dealer value: %s" % dealer.my_hand.values)
+                if player.my_hand.values > dealer.my_hand.values or player.my_hand.values == 21:
+                    print("Player Win!")
+                    player.my_chips.win_bet()
+                    break
+                else:
+                    print("Player lose!")
+                    player.my_chips.lose_bet()
+                    break
+
             print(player)
             print(dealer)
             print("Bet: {1} and {0}".format(player.my_chips, player.my_chips.bet))
-            print(player.my_hand.values)
+            print("PLayer value: %s " % player.my_hand.values)
 
-    # TODO: check value and if is a ase give a correct values
-    # TODO: loop for playing, starts hit and stand
-    # TODO: Bank?
-    # TODO: When wan? or lose?
-
-
+        #reset
+        deck, player, dealer = start()
 
 if __name__ == '__main__':
     main()

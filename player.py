@@ -20,6 +20,8 @@ class Player():
             card.rank["ase"] = self.my_hand.adjas_of_ase()
         self.my_hand.values += [x for x in card.rank.values()][0]
         self.my_hand.add_card(card)
+        print(card)
+
 
     def begin(self):
         self.my_hand.add_card(self.deck.deal())

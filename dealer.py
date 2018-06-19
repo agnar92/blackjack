@@ -6,7 +6,6 @@ class Dealer(Player):
 
     def __init__(self, deck):
         self.my_hand = Hand()
-        self.my_chips = Chips()
         self.deck = deck
         self.i = 1
 
@@ -19,6 +18,7 @@ class Dealer(Player):
 
     def hit(self):
         card = self.deck.deal()
+        print(card)
         self.i += 1
         if "ase" in card.rank:
             card.rank["ase"] = self.my_hand.adjas_of_ase()
