@@ -2,12 +2,16 @@ from deck import Deck
 from player import Player
 from dealer import Dealer
 from chips import Chips
+from mongo import Mongo
 
 def start():
     # Genarate Deck
     d = Deck()
     d.shuffle()
-
+    # generate DataBase
+    mongodb = Mongo()
+    mongodb.getDataBase()
+    mongodb.setCollection()
     # give card for player and dealer
     player_1 = Player(d)
     dd = Dealer(d)
